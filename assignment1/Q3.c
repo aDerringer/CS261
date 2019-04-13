@@ -220,6 +220,7 @@ int main(){
 	int containsAlpha = 0;
 	char c;
 	char* word;
+	char* temp;
 
 	printf("Please enter a string:\n");
 
@@ -234,7 +235,8 @@ int main(){
 		while ((c = getchar()) != '\n') {
 
 			//Size of dynamic string reallocated with each new char
-			realloc(word, (sizeof(char) * (length + 1)));
+			temp = realloc(word, (sizeof(char) * (length + 1)));
+			word = temp;
 			word[length] = c;
 			length++;
 
@@ -245,7 +247,8 @@ int main(){
 		}
 
 		//Append NUL to end of string
-		realloc(word, (sizeof(char) * (length + 1)));
+		temp = realloc(word, (sizeof(char) * (length + 1)));
+		word = temp;
 		word[length] = '\0';
 
 		//If no letters were present throw error message. Input process will loop again.
