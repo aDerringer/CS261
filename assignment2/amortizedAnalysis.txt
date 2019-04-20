@@ -1,0 +1,16 @@
+1) Unit cost when dynamic array size doubles:
+
+In order for a size of 50 to be reached, the initial capacity of 8
+will have to be doubled when exceeding the size of 8, 16, and 32.
+The cost of these resizes are n + 1, where n represents the cost
+for copying over all data from the old array to the new. Then the
+3 resizes will cost 9 + 17 + 32 = 58 and the remaining 47 additions
+will simply cost 1 each. Then 58 + 47 = 105 / 50 = 2.1 unit cost.
+
+2) Unit cost when dynamic array increases at constant 2:
+
+In this case a resize will occur every other addition between 8 and
+50, or at every odd number between 8 and 50. Then the first 8 pushes
+and 21 of the final 42 will each cost one 8 + 21 = 29. The other 21
+pushes will cost 49 + 9 = 58 / 2 = 29 * 21 = 609. Then this method
+will have 29 + 609 = 638 / 50 = 12.76 unit cost.
