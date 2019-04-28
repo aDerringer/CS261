@@ -81,6 +81,8 @@ static struct Link* createLink(TYPE value) {
 	assert(newLink != NULL);
 
 	newLink->value = value;
+
+	return newLink;
 }
 
 /*************************************************************************
