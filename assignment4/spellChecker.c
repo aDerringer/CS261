@@ -13,13 +13,7 @@ struct HashList {
 	int size;
 };
 
-struct HashList* hashListCreate() {
-	struct HashList* list = malloc(sizeof(struct HashList));
-	initHashList(list);
-	return list;
-}
-
-static void initHashList(struct HashList* list) {
+void initHashList(struct HashList* list) {
 
 	struct HashLink* frontSen = (struct HashLink*)malloc(sizeof(struct HashLink));
 	assert(frontSen != 0);
@@ -30,13 +24,18 @@ static void initHashList(struct HashList* list) {
 	list->size = 0;
 }
 
+struct HashList* hashListCreate() {
+	struct HashList* list = malloc(sizeof(struct HashList));
+	initHashList(list);
+	return list;
+}
 
-void hashListInsert(struct HashList* list, HashLink* link) {
-	struct HashLink* newLink = (struct HashLink*)malloc(sizeof(struct HashLink));
-	assert(newLink != 0);
-    strcpy(newLink->key, link->key);
-    newLink->value = link->value;
-    newLink->next = NULL;
+void hashListInsert(struct HashList* list, const char* key, int value) {
+    struct HashLink* newLink = hashLinkNew(key, value, NULL);
+    assert(newLink != 0);
+    //strcpy(newLink->key, key);
+    //newLink->value = value;
+    //newLink->next = NULL;
 
     HashLink* itr;
 
@@ -58,7 +57,8 @@ void hashListInsert(struct HashList* list, HashLink* link) {
         }
         struct HashLink* holder = itr->next;
         itr->next = NULL;
-        hashLinkDelete(holder);
+        free(holder->key);
+        free(holder);
     }
 }
 
@@ -70,7 +70,8 @@ void hashListDestroy(struct HashList* list) {
     while (itr != NULL) {
         holder = itr;
         itr = itr->next;
-        hashLinkDelete(holder);
+        free(holder->key);
+        free(holder);
     }
     free(list);
 }
@@ -313,7 +314,7 @@ int main(int argc, const char** argv)
     // FIXME: implement
     HashMap* map = hashMapNew(1000);
     
-    FILE* file = fopen("dictionary.txt", "r");
+    FILE* file = fopen("dict2.txt", "r");
     clock_t timer = clock();
     loadDictionary(file, map);
     timer = clock() - timer;
@@ -341,19 +342,19 @@ int main(int argc, const char** argv)
                     } else {
                         edit* script;
                         itr->value = levenshtein_distance(inputBuffer, itr->key, &script);
-                        hashListInsert(suggestions, itr);
+                        hashListInsert(suggestions, itr->key, itr->value);
                         free(script);
                     }
                     itr = itr->next;
                 }
-
-                if (!found) {
-                    printf("The inputted word %s is spelled incorrectly\n", inputBuffer);
-                    printf("Did you mean:\n");
-                    hashListPrint(suggestions);
-                }
             }
         }
+        if (!found) {
+            printf("The inputted word %s is spelled incorrectly\n", inputBuffer);
+            printf("Did you mean:\n");
+            hashListPrint(suggestions);
+        }
+
         hashListDestroy(suggestions);
         
         if (strcmp(inputBuffer, "quit") == 0)
