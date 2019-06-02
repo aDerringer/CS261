@@ -207,9 +207,7 @@ void resizeTable(HashMap* map, int capacity)
  * @param key
  * @param value
  */
-void hashMapPut(HashMap* map, const char* key, int value)
-{
-    // FIXME: implement
+void hashMapPut(HashMap* map, const char* key, int value) {
     assert(map != NULL);
 
     int hashIndex = HASH_FUNCTION(key) % map->capacity;
@@ -217,7 +215,6 @@ void hashMapPut(HashMap* map, const char* key, int value)
         hashIndex += map->capacity;
     }
     HashLink* itr = map->table[hashIndex];
-    //int* valSearch = hashMapGet(map, key);
 
     while (itr != NULL) {
         if (strcmp(itr->key, key) == 0) {
@@ -232,27 +229,12 @@ void hashMapPut(HashMap* map, const char* key, int value)
     map->table[hashIndex] = newLink;
     map->size++;
 
-
-/*
-    if (valSearch == NULL) {
-        HashLink* newLink = hashLinkNew(key, value, itr);
-        itr = newLink;
-        map->size++;
-    } else {
-        *valSearch = value;
-    }
-*/
     if (hashMapTableLoad(map) >= 0.75) {
-        //hashMapPrint(map);
         resizeTable(map, map->capacity * 2);
-        //itr = map->table[HASH_FUNCTION(key) % map->capacity];
         printf("SIZE AFTER RESIZE: %i\n", map->size);
         printf("CAP AFTER RESIZE: %i\n", map->capacity);
-        //hashMapPrint(map);
     }
 
-    //printf("size: %i\n", map->size);
-    //printf("capacity: %i\n", map->capacity);
 }
 
 /**
@@ -302,9 +284,7 @@ void hashMapRemove(HashMap* map, const char* key)
  * @param key
  * @return 1 if the key is found, 0 otherwise.
  */
-int hashMapContainsKey(HashMap* map, const char* key)
-{
-    // FIXME: implement
+int hashMapContainsKey(HashMap* map, const char* key) {
     assert(map != NULL);
 
     int hashIndex = HASH_FUNCTION(key) % map->capacity;
@@ -328,9 +308,8 @@ int hashMapContainsKey(HashMap* map, const char* key)
  * @param map
  * @return Number of links in the table.
  */
-int hashMapSize(HashMap* map)
-{
-    // FIXME: implement
+int hashMapSize(HashMap* map) {
+
     assert(map != NULL);
     return map->size;
 }
@@ -340,9 +319,8 @@ int hashMapSize(HashMap* map)
  * @param map
  * @return Number of buckets in the table.
  */
-int hashMapCapacity(HashMap* map)
-{
-    // FIXME: implement
+int hashMapCapacity(HashMap* map) {
+
     assert(map != NULL);
     return map->capacity;
 }
@@ -352,9 +330,8 @@ int hashMapCapacity(HashMap* map)
  * @param map
  * @return Number of empty buckets.
  */
-int hashMapEmptyBuckets(HashMap* map)
-{
-    // FIXME: implement
+int hashMapEmptyBuckets(HashMap* map) {
+
     assert(map != NULL);
     int empty = 0;
 
@@ -374,9 +351,8 @@ int hashMapEmptyBuckets(HashMap* map)
  * @param map
  * @return Table load.
  */
-float hashMapTableLoad(HashMap* map)
-{
-    // FIXME: implement
+float hashMapTableLoad(HashMap* map) {
+
     assert(map != NULL);
 
     return (map->size / 1.0f) / map->capacity;
@@ -386,9 +362,8 @@ float hashMapTableLoad(HashMap* map)
  * Prints all the links in each of the buckets in the table.
  * @param map
  */
-void hashMapPrint(HashMap* map)
-{
-    // FIXME: implement
+void hashMapPrint(HashMap* map) {
+
     assert(map != NULL);
 
     HashLink* itr;

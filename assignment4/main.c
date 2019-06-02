@@ -16,7 +16,7 @@ char* nextWord(FILE* file) {
     int maxLength = 16;
     int length = 0;
     char* word = malloc(sizeof(char) * maxLength);
-    //Fix me: Do the necessary change to make the implementation //case-insensitive  
+ 
     while (1) {
         char c = (char) fgetc(file);
         if ((c >= '0' && c <= '9') ||
@@ -28,7 +28,6 @@ char* nextWord(FILE* file) {
                 word = realloc(word, maxLength);
             }
 
-            // all uppercase letters become lowercase
             if (c >= 'A' && c <= 'Z') {
                 c += 32;
             }
@@ -59,9 +58,8 @@ char* nextWord(FILE* file) {
  * @param argv
  * @return
  */
-int main(int argc, const char** argv)
-{
-    //FIXME: implement
+int main(int argc, const char** argv) {
+
     const char* fileName = "input3.txt";
     if (argc > 1)
     {
@@ -81,7 +79,6 @@ int main(int argc, const char** argv)
     int* occurence;
     char* word = nextWord(file);
     
-    // --- Concordance code begins here ---
     while (word != NULL) {
         occurence = hashMapGet(map, word);
         if (occurence != NULL) {
@@ -89,11 +86,11 @@ int main(int argc, const char** argv)
         } else {
             hashMapPut(map, word, 1);
         }
-        // Be sure to free the word after you are done with it here.
+
         free(word);
         word = nextWord(file);
     }
-    // --- Concordance code ends here ---
+
    
     fclose(file); 
     
