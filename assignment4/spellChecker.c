@@ -58,7 +58,8 @@ void hashListInsert(struct HashList* list, HashLink* link) {
         }
         struct HashLink* holder = itr->next;
         itr->next = NULL;
-        hashLinkDelete(holder);
+        free(holder->key);
+        free(holder);
     }
 }
 
