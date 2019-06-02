@@ -12,14 +12,13 @@
  * @param file
  * @return Allocated string or NULL.
  */
-char* nextWord(FILE* file)
-{
+char* nextWord(FILE* file) {
     int maxLength = 16;
     int length = 0;
     char* word = malloc(sizeof(char) * maxLength);
-//Fix me: Do the necessary change to make the implementation //case-insensitive  
+    //Fix me: Do the necessary change to make the implementation //case-insensitive  
     while (1) {
-        char c = fgetc(file);
+        char c = (char) fgetc(file);
         if ((c >= '0' && c <= '9') ||
             (c >= 'A' && c <= 'Z') ||
             (c >= 'a' && c <= 'z') ||
@@ -48,6 +47,7 @@ char* nextWord(FILE* file)
         return NULL;
     }
     word[length] = '\0';
+    printf("%s\n", word);
     return word;
 }
 
@@ -62,36 +62,40 @@ char* nextWord(FILE* file)
 int main(int argc, const char** argv)
 {
     //FIXME: implement
-    const char* fileName = "input1.txt";
+    const char* fileName = "input3.txt";
     if (argc > 1)
     {
         fileName = argv[1];
     }
     printf("Opening file: %s\n", fileName);
 
-	FILE* inputFile = fopen(fileName, "r");
-    assert(FILE* != NULL);
+    FILE *file = NULL;
+    file = fopen(fileName, "r");
+    if (file == NULL) {
+        printf("Could not open file!");
+        return 0;
+    }
 
     clock_t timer = clock();
     HashMap* map = hashMapNew(10);
     int* occurence;
-    char* word = nextWord(inputFile);
+    char* word = nextWord(file);
     
     // --- Concordance code begins here ---
     while (word != NULL) {
         occurence = hashMapGet(map, word);
         if (occurence != NULL) {
-            (*occurence)++;
+            ++*occurence;
         } else {
             hashMapPut(map, word, 1);
         }
         // Be sure to free the word after you are done with it here.
         free(word);
-        word = nextWord(inputFile);
+        word = nextWord(file);
     }
     // --- Concordance code ends here ---
-    
-    
+   
+    fclose(file); 
     
     timer = clock() - timer;
     printf("\nRan in %f seconds\n", (float)timer / (float)CLOCKS_PER_SEC);
@@ -99,7 +103,7 @@ int main(int argc, const char** argv)
     printf("Number of links: %d\n", hashMapSize(map));
     printf("Number of buckets: %d\n", hashMapCapacity(map));
     printf("Table load: %f\n", hashMapTableLoad(map));
-    
+    hashMapPrint(map); 
     hashMapDelete(map);
     return 0;
 }
