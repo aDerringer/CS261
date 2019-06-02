@@ -27,7 +27,7 @@ struct HashMap
     // Number of buckets in the table.
     int capacity;
 };
-
+HashLink* hashLinkNew(const char* key, int value, HashLink* next);
 HashMap* hashMapNew(int capacity);
 void hashMapDelete(HashMap* map);
 int* hashMapGet(HashMap* map, const char* key);

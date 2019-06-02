@@ -216,7 +216,6 @@ void hashMapPut(HashMap* map, const char* key, int value)
     if (hashIndex < 0) {
         hashIndex += map->capacity;
     }
-    printf("Hash Index: %i\n", hashIndex);
     HashLink* itr = map->table[hashIndex];
     //int* valSearch = hashMapGet(map, key);
 
